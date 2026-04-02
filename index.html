@@ -1,107 +1,144 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>RoboSearch</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #020617);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
+<meta charset="UTF-8">
+<title>RoboSearch PRO</title>
 
-    h1 {
-      font-size: 60px;
-      margin-bottom: 20px;
-      color: #38bdf8;
-      text-shadow: 0 0 20px #38bdf8;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: black;
+  color: #00f7ff;
+  overflow: hidden;
+}
 
-    .search-box {
-      display: flex;
-      gap: 10px;
-    }
+/* Fondo animado */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 
-    input {
-      padding: 15px;
-      width: 300px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      font-size: 16px;
-    }
+/* Contenido */
+.container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  top: 30%;
+}
 
-    button {
-      padding: 15px 20px;
-      border: none;
-      border-radius: 10px;
-      background: #38bdf8;
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+h1 {
+  font-size: 70px;
+  text-shadow: 0 0 25px #00f7ff;
+}
 
-    button:hover {
-      background: #0ea5e9;
-      transform: scale(1.05);
-    }
+.search-box {
+  margin-top: 20px;
+}
 
-    .links {
-      margin-top: 30px;
-      display: flex;
-      gap: 15px;
-    }
+input {
+  padding: 15px;
+  width: 320px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+}
 
-    .links a {
-      text-decoration: none;
-      color: white;
-      background: #1e293b;
-      padding: 10px 15px;
-      border-radius: 10px;
-      transition: 0.3s;
-    }
+button {
+  padding: 15px;
+  border: none;
+  background: #00f7ff;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
-    .links a:hover {
-      background: #38bdf8;
-      color: black;
-    }
+button:hover {
+  transform: scale(1.1);
+}
 
-    footer {
-      position: absolute;
-      bottom: 10px;
-      font-size: 12px;
-      color: #94a3b8;
-    }
-  </style>
+/* Botones rápidos */
+.links {
+  margin-top: 25px;
+}
+
+.links a {
+  margin: 5px;
+  display: inline-block;
+  padding: 10px 15px;
+  background: #111;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #00f7ff;
+}
+
+.links a:hover {
+  background: #00f7ff;
+  color: black;
+}
+</style>
 </head>
+
 <body>
 
+<canvas id="bg"></canvas>
+
+<div class="container">
   <h1>🤖 RoboSearch</h1>
 
-  <form action="https://www.google.com/search" method="GET">
+  <form action="https://www.google.com/search">
     <div class="search-box">
-      <input type="text" name="q" placeholder="Buscar en internet..." required>
-      <button type="submit">Buscar</button>
+      <input type="text" name="q" placeholder="Buscar..." required>
+      <button>Buscar</button>
     </div>
   </form>
 
   <div class="links">
     <a href="https://www.roblox.com" target="_blank">🎮 Roblox</a>
     <a href="https://www.youtube.com" target="_blank">📺 YouTube</a>
-    <a href="https://www.google.com" target="_blank">🌐 Google</a>
+    <a href="https://chat.openai.com" target="_blank">🤖 ChatGPT</a>
   </div>
+</div>
 
-  <footer>
-    Creado por RoboSearch ⚡
-  </footer>
+<script>
+/* Fondo tipo hacker */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+let letters = "ROBOSEARCH101010101";
+letters = letters.split("");
+
+let fontSize = 14;
+let columns = canvas.width / fontSize;
+
+let drops = [];
+for (let x = 0; x < columns; x++)
+  drops[x] = 1;
+
+function draw() {
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#00f7ff";
+  ctx.font = fontSize + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    let text = letters[Math.floor(Math.random() * letters.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.95)
+      drops[i] = 0;
+
+    drops[i]++;
+  }
+}
+
+setInterval(draw, 33);
+</script>
 
 </body>
 </html>
