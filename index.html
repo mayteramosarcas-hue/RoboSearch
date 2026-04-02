@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>RoboSearch</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 60px;
+      margin-bottom: 20px;
+      color: #38bdf8;
+      text-shadow: 0 0 20px #38bdf8;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+    }
+
+    input {
+      padding: 15px;
+      width: 300px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 15px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #38bdf8;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+      transform: scale(1.05);
+    }
+
+    .links {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .links a {
+      text-decoration: none;
+      color: white;
+      background: #1e293b;
+      padding: 10px 15px;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    .links a:hover {
+      background: #38bdf8;
+      color: black;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🤖 RoboSearch</h1>
+
+  <form action="https://www.google.com/search" method="GET">
+    <div class="search-box">
+      <input type="text" name="q" placeholder="Buscar en internet..." required>
+      <button type="submit">Buscar</button>
+    </div>
+  </form>
+
+  <div class="links">
+    <a href="https://www.roblox.com" target="_blank">🎮 Roblox</a>
+    <a href="https://www.youtube.com" target="_blank">📺 YouTube</a>
+    <a href="https://www.google.com" target="_blank">🌐 Google</a>
+  </div>
+
+  <footer>
+    Creado por RoboSearch ⚡
+  </footer>
+
+</body>
+</html>
