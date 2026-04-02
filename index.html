@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>RoboSearch PRO</title>
+<title>RoboSearch ULTRA</title>
 
 <style>
 body {
@@ -13,69 +13,91 @@ body {
   overflow: hidden;
 }
 
-/* Fondo animado */
 canvas {
   position: fixed;
   top: 0;
   left: 0;
 }
 
-/* Contenido */
+/* Pantalla login */
+#login {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 10;
+}
+
+#login input {
+  padding: 10px;
+  margin: 10px;
+}
+
+#login button {
+  padding: 10px;
+  background: #00f7ff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Contenido principal */
 .container {
   position: relative;
   z-index: 2;
   text-align: center;
-  top: 30%;
+  top: 25%;
+  display: none;
 }
 
 h1 {
-  font-size: 70px;
-  text-shadow: 0 0 25px #00f7ff;
+  font-size: 60px;
 }
 
-.search-box {
-  margin-top: 20px;
-}
-
+/* Buscador */
 input {
   padding: 15px;
-  width: 320px;
+  width: 300px;
   border-radius: 10px;
   border: none;
-  font-size: 16px;
 }
 
 button {
   padding: 15px;
   border: none;
   background: #00f7ff;
-  font-weight: bold;
-  border-radius: 10px;
   cursor: pointer;
 }
 
-button:hover {
-  transform: scale(1.1);
-}
-
-/* Botones rápidos */
+/* Links */
 .links {
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 .links a {
   margin: 5px;
-  display: inline-block;
-  padding: 10px 15px;
+  padding: 10px;
   background: #111;
   border-radius: 10px;
-  text-decoration: none;
   color: #00f7ff;
+  text-decoration: none;
 }
 
-.links a:hover {
-  background: #00f7ff;
-  color: black;
+/* Historial */
+#history {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 200px;
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(0,0,0,0.7);
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 12px;
 }
 </style>
 </head>
@@ -84,40 +106,92 @@ button:hover {
 
 <canvas id="bg"></canvas>
 
-<div class="container">
+<!-- LOGIN -->
+<div id="login">
+  <h2>🔐 Acceso RoboSearch</h2>
+  <input type="text" id="user" placeholder="Usuario">
+  <input type="password" id="pass" placeholder="Contraseña">
+  <button onclick="login()">Entrar</button>
+</div>
+
+<!-- CONTENIDO -->
+<div class="container" id="main">
+
   <h1>🤖 RoboSearch</h1>
 
-  <form action="https://www.google.com/search">
-    <div class="search-box">
-      <input type="text" name="q" placeholder="Buscar..." required>
-      <button>Buscar</button>
-    </div>
+  <form onsubmit="search(event)">
+    <input type="text" id="query" placeholder="Buscar..." required>
+    <button>Buscar</button>
   </form>
 
   <div class="links">
     <a href="https://www.roblox.com" target="_blank">🎮 Roblox</a>
     <a href="https://www.youtube.com" target="_blank">📺 YouTube</a>
-    <a href="https://chat.openai.com" target="_blank">🤖 ChatGPT</a>
   </div>
+
 </div>
 
+<!-- HISTORIAL -->
+<div id="history"></div>
+
+<!-- AUDIO -->
+<audio id="clickSound" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
+
 <script>
-/* Fondo tipo hacker */
+/* LOGIN falso */
+function login() {
+  document.getElementById("login").style.display = "none";
+  document.getElementById("main").style.display = "block";
+}
+
+/* SONIDO */
+function playSound() {
+  document.getElementById("clickSound").play();
+}
+
+/* BUSCAR + HISTORIAL */
+function search(e) {
+  e.preventDefault();
+  let q = document.getElementById("query").value;
+
+  playSound();
+
+  let history = JSON.parse(localStorage.getItem("history") || "[]");
+  history.unshift(q);
+  localStorage.setItem("history", JSON.stringify(history));
+
+  renderHistory();
+
+  window.open("https://www.google.com/search?q=" + q, "_blank");
+}
+
+/* MOSTRAR HISTORIAL */
+function renderHistory() {
+  let history = JSON.parse(localStorage.getItem("history") || "[]");
+  let box = document.getElementById("history");
+  box.innerHTML = "<b>Historial</b><br>";
+  history.slice(0,10).forEach(item => {
+    box.innerHTML += item + "<br>";
+  });
+}
+
+renderHistory();
+
+/* FONDO HACKER */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-let letters = "ROBOSEARCH101010101";
+let letters = "ROBOSEARCH10101";
 letters = letters.split("");
 
 let fontSize = 14;
 let columns = canvas.width / fontSize;
 
 let drops = [];
-for (let x = 0; x < columns; x++)
-  drops[x] = 1;
+for (let x = 0; x < columns; x++) drops[x] = 1;
 
 function draw() {
   ctx.fillStyle = "rgba(0,0,0,0.05)";
